@@ -56,28 +56,53 @@ bootstrap:
     # Mapping between IDP (Azure Active Directory) groups and CDF groups.
     idp-cdf-mappings:
     # Support multiple CDF Projects, like dev/test/prod in one config.
-        - cdf-project: <CDF project name> # i.e. bootcamp-01-test
+        - cdf-project: cdf-bootcamp-05-test # i.e. bootcamp-01-test
           mappings:
               - cdf-group: cdf:root
-                idp-source-id: <AAD Group Object id>
-                idp-source-name: <AAD Group name>
+                idp-source-id: 3477adb2-9ab2-40d8-9110-1f7029789925
+                idp-source-name: bootcamp-05-test-admin
               - cdf-group: cdf:all:owner
-                idp-source-id: <AAD Group Object Id> # for the AAD Group to be matched to cdf-group
-                idp-source-name: <AAD Group name> # i.e. bootcamp-01-test-all-owner
+                idp-source-id: 71b4e86c-9893-4246-9842-33ff89906135 # for the AAD Group to be matched to cdf-group
+                idp-source-name: bootcamp-05-test-all-owner # i.e. bootcamp-01-test-all-owner
               - cdf-group: cdf:all:read
-                idp-source-id: <AAD Group Object Id> # for the AAD Group to be matched to cdf-group
-                idp-source-name: <AAD Group name> # i.e. bootcamp-01-test-all-read
+                idp-source-id: c8a2b6f4-1bb7-4c52-b531-00616f6cb25e # for the AAD Group to be matched to cdf-group
+                idp-source-name: bootcamp-05-test-all-read # i.e. bootcamp-01-test-all-read
+
+        - cdf-project: cdf-bootcamp-05-prod
+          mappings:
+              - cdf-group: cdf:root
+                idp-source-id: a12bac23-c431-4d79-820f-65415da30f5f
+                idp-source-name: bootcamp-05-prod-admin
+              - cdf-group: cdf:all:owner
+                idp-source-id: afe7aee4-d004-4c04-8b5e-5f89b34cac6a
+                idp-source-name: bootcamp-05-prod-all-owner
+              - cdf-group: cdf:all:read
+                idp-source-id: 79b5464c-b18f-4f7f-85d9-b76d19e5a508
+                idp-source-name: bootcamp-05-prod-all-read
 
 
     namespaces:
         # Typical config will have a namespace for data sources ("src") and a namespace for use cases ("uc")
-        - ns-name: <Namespace name>
+        - ns-name: src
           description: Data sources for the Ice Cream Factory # HINT
 
           # Node names will normally follow src:001:srcname or uc:001:usecasename naming convention
           ns-nodes:
-              - node-name: <Node name>
-                description: Data from SAP # HINT
+              - node-name: src:001:sap
+                description: Source 01 data from SAP
+              - node-name: src:002:opcua
+                description: Source 02 data from opcua
+        - ns-name: uc
+          description: Use cases representing the data/products
+
+          # Description names will normally follow src:001:srcname or uc:001:usecasename naming convention
+          ns-nodes:
+              - node-name: uc:001:oee
+                description: Use case 001 Over all Equipment effectiveness
+                shared-access:
+                    read:
+                        - node-name: src:001:sap
+                        - node-name: src:002:opcua
         # HINT: Add another namespace below
 
 
